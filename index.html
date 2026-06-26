@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Poetical Science — Ada, woven in eights (the fulcrum & the ripple)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Spectral:ital,wght@0,300;0,400;1,400&family=IBM+Plex+Mono:wght@400;500&family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ground:#0d0a1a; --ground2:#15112a; --line:rgba(200,180,150,.15);
+    --ink:#ece3cf; --ink-dim:#b6ac96; --faint:#6c6486;
+    --brass:#c89b3c; --brass-dim:#9a7a2e; --copper:#c0703a; --ivory:#efe6d2; --verd:#6db3a3; --violet:#9a86d8;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;background:var(--ground);color:var(--ink);
+    font-family:"Spectral",Georgia,serif;line-height:1.6;-webkit-font-smoothing:antialiased;
+    background-image:radial-gradient(900px 520px at 80% -10%, rgba(154,134,216,.16), transparent 60%),
+      radial-gradient(820px 640px at 6% 112%, rgba(200,155,60,.10), transparent 55%);
+    display:flex;justify-content:center}
+  .card{max-width:740px;width:100%;padding:34px 22px 56px}
+  .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--brass-dim)}
+  h1{font-family:"Cormorant Garamond",serif;font-weight:300;font-size:clamp(36px,9vw,62px);margin:8px 0 0;line-height:.96;letter-spacing:-.5px}
+  h1 em{font-style:italic;color:var(--brass)}
+  .sub{font-style:italic;font-weight:300;color:var(--ink-dim);font-size:16px;margin:14px 0 0;max-width:60ch}
+
+  #ripple{display:block;width:100%;height:300px;border-radius:8px;margin-top:20px;background:#070512;border:1px solid var(--line)}
+
+  .stavebar{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-dim);margin-top:12px;
+    display:flex;justify-content:center;gap:7px;flex-wrap:wrap;align-items:baseline}
+  .stavebar .lv{display:inline-flex;flex-direction:column;align-items:center;gap:3px;width:30px}
+  .stavebar .lv .n{font-family:"Press Start 2P",monospace;font-size:11px}
+  .stavebar .lv .bar{height:4px;border-radius:3px;background:var(--brass)}
+  .stavebar .lv.on .n{color:#fff;text-shadow:0 0 8px currentColor}
+  .stavebar .lv.f .n{color:var(--ivory)}
+  .notation{text-align:center;font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--faint);margin-top:6px;letter-spacing:.04em}
+
+  .panel{margin-top:20px;border:1px solid var(--line);border-radius:7px;background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(0,0,0,.16));padding:16px}
+  .lab{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--brass-dim);margin-bottom:10px}
+  .poems{display:flex;flex-direction:column;gap:8px}
+  button.poem{text-align:left;cursor:pointer;background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(0,0,0,.16));
+    border:1px solid var(--line);border-radius:5px;color:var(--ink);padding:11px 13px;font-family:"Spectral",serif;font-size:15px;transition:.15s}
+  button.poem:hover{border-color:rgba(200,155,60,.5);background:rgba(200,155,60,.05)}
+  button.poem.sel{border-color:var(--brass);background:rgba(200,155,60,.10)}
+  .quote{margin-top:14px;border-top:1px solid var(--line);padding-top:14px}
+  .quote .q{font-family:"Cormorant Garamond",serif;font-size:clamp(19px,3.6vw,25px);line-height:1.45;color:var(--ivory)}
+  .quote .src{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--faint);margin-top:8px}
+
+  .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:14px}
+  button.play{display:inline-flex;align-items:center;gap:9px;cursor:pointer;
+    background:linear-gradient(180deg,rgba(200,155,60,.20),rgba(200,155,60,.06));border:1px solid rgba(200,155,60,.55);
+    border-radius:5px;color:var(--ink);padding:11px 18px;font-family:"IBM Plex Mono",monospace;font-size:13px;letter-spacing:.04em;transition:.15s}
+  button.play:hover{background:rgba(200,155,60,.16)} button.play:active{transform:translateY(1px)} button.play.busy{opacity:.5;pointer-events:none}
+  label.tempo{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-dim)}
+  label.tempo input{vertical-align:middle;width:110px;accent-color:var(--brass)}
+  button.echo-btn{font-family:"IBM Plex Mono",monospace;font-size:11px;cursor:pointer;color:var(--verd);background:transparent;border:1px solid rgba(109,179,163,.4);border-radius:5px;padding:9px 12px}
+  button.echo-btn.off{color:var(--faint);border-color:var(--line)}
+
+  .note{margin-top:24px;border-top:1px solid var(--line);padding-top:16px;font-family:"IBM Plex Mono",monospace;font-size:11px;line-height:1.85;color:var(--faint)}
+  .note b{color:var(--brass-dim)}
+  @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="eyebrow">Ada · 8-bit · the fulcrum &amp; the ripple · ROOT0</div>
+  <h1>Poetical <em>Science</em></h1>
+  <p class="sub">Ada Lovelace called for a science done with imagination. Here her lines are woven in eights: each is sounded as a <b>symmetric seven-tone phrase</b> — three steps up to a still <b>fulcrum</b>, then three steps mirrored back — in NES pulse tones. Each tone is given <b>width by its distance from the centre</b>, so the sound (and the rings below) <b>ripple outward from the pivot</b>, and the whole thing runs through the ternary echo. The Engine weaves patterns; so does she.</p>
+
+  <canvas id="ripple"></canvas>
+  <div class="stavebar" id="stave"></div>
+  <div class="notation">-+( -+1( -+2( -+3( (00) )3+- )2+- )1+- )+-&nbsp;&nbsp;·&nbsp;&nbsp;3, symmetric → 7, on a fulcrum</div>
+
+  <div class="panel">
+    <div class="lab">choose a line of Ada's — each is woven into the phrase</div>
+    <div class="poems" id="poems"></div>
+    <div class="quote" id="quote"></div>
+    <div class="row">
+      <button class="play" id="play"><span>▶</span> weave it</button>
+      <label class="tempo">tempo <input id="tempo" type="range" min="70" max="170" value="108"></label>
+      <button class="echo-btn" id="echoBtn">◎ ternary echo: on</button>
+    </div>
+  </div>
+
+  <div class="note">
+    <b>what's real.</b> the quotes are Ada Lovelace's own words (1815–1852; public domain) — the Jacquard-loom passage and the 'no pretensions to originate anything' line are from her Notes on the Analytical Engine (1843). the NES <b>pulse/triangle/noise</b> voices are a live Web-Audio synthesis of the sound chip; nothing is downloaded.
+    <br><br><b>what's the system.</b> 'poetical science' is how Ada's approach is remembered — used here as a frame, not a hard quote. the seven-tone fulcrum, the width-per-tone ripple (the trit −/0/+, widest at the edges, mono at the pivot), and the ternary echo are ROOT0's composition. a faithful render of her ethos, not a recovered melody — she left equations, not tunes.
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  // ── Ada's lines (verbatim, public domain) ──
+  var POEMS=[
+    {q:"The Analytical Engine weaves algebraical patterns just as the Jacquard loom weaves flowers and leaves.", src:"Ada Lovelace — Notes on the Analytical Engine, Note A (1843)"},
+    {q:"The Analytical Engine has no pretensions to originate anything. It can do whatever we know how to order it to perform.", src:"Ada Lovelace — Note G (1843)"},
+    {q:"Imagination is the Discovering Faculty, pre-eminently. It is that which penetrates into the unseen worlds around us, the worlds of Science.", src:"Ada Lovelace — on Imagination"},
+    {q:"That brain of mine is something more than merely mortal; as time will show.", src:"Ada Lovelace — letter to her mother (1843)"},
+    {q:"I never am really satisfied that I understand anything; because, understand it well as I may, my comprehension can only be an infinitesimal fraction of all I want to understand.", src:"Ada Lovelace — letter"}
+  ];
+
+  // ── the fulcrum phrase: levels in time = 1,2,3,(0 fulcrum),3,2,1 ──
+  var PHRASE=[1,2,3,0,3,2,1];
+  function levelSemi(L){ return L===0 ? 12 : [null,0,4,7][L]; }   // 1→root 2→M3 3→P5 fulcrum→octave (peak)
+  function levelWidth(L){ return L===0 ? 0 : [null,3,2,1][L]; }   // outer(1) widest · fulcrum mono
+  var TONIC=440;
+  function freqOf(L){ return TONIC*Math.pow(2, levelSemi(L)/12); }
+
+  // ── Web Audio ──
+  var ctx=null, master=null, echo=null, echoOn=true, pulseWave=null;
+  function init(){ if(ctx) return; ctx=new (window.AudioContext||window.webkitAudioContext)();
+    master=ctx.createGain(); master.gain.value=0.7;
+    var conv=ctx.createConvolver(), rate=ctx.sampleRate, len=Math.floor(rate*1.2), ir=ctx.createBuffer(2,len,rate);
+    for(var c=0;c<2;c++){var d=ir.getChannelData(c);for(var i=0;i<len;i++) d[i]=(Math.random()*2-1)*Math.pow(1-i/len,3.0);}
+    conv.buffer=ir; var wet=ctx.createGain(); wet.gain.value=0.12;
+    master.connect(ctx.destination); master.connect(conv); conv.connect(wet).connect(ctx.destination);
+    // a 25%-duty NES pulse wave (thin, classic lead)
+    var N=24, re=new Float32Array(N), im=new Float32Array(N), duty=0.25;
+    for(var n=1;n<N;n++){ im[n]=(2/(n*Math.PI))*Math.sin(n*Math.PI*duty); }
+    pulseWave=ctx.createPeriodicWave(re, im, {disableNormalization:false});
+    echo=makeTernaryEcho(ctx, master); echo.setOn(echoOn);
+  }
+  function resume(){ if(ctx&&ctx.state==="suspended") ctx.resume(); }
+
+  // ── THE TERNARY ECHO (from the LIMEN carriers) ──
+  var TROT=[[1/3,2/3,2.99/3],[2/3,2.99/3,1/3],[2.99/3,1/3,2/3]];
+  function makeTernaryEcho(ac,out){ var beat=0.5,input=ac.createGain(),fb=ac.createGain(),wet=ac.createGain(),taps=[];
+    fb.gain.value=0.30; wet.gain.value=0.55;
+    for(var i=0;i<3;i++){ var d=ac.createDelay(2.0); d.delayTime.value=TROT[0][i]*beat; var tg=ac.createGain(); tg.gain.value=0.72-i*0.1;
+      var p=ac.createStereoPanner?ac.createStereoPanner():null; input.connect(d);
+      if(p){ p.pan.value=[-1,0,1][i]; d.connect(p); p.connect(tg);} else d.connect(tg); tg.connect(wet); tg.connect(fb); taps.push({delay:d,pan:p}); }
+    fb.connect(input); wet.connect(out);
+    return { input:input, setBeat:function(b){beat=b;}, setOn:function(v){ wet.gain.setTargetAtTime(v?0.55:0.0001,ac.currentTime,0.02); },
+      rotateAt:function(t,r,dir){ var rot=TROT[((r%3)+3)%3], pans=dir==="fall"?[1,0,-1]:[-1,0,1];
+        for(var i=0;i<3;i++){ taps[i].delay.delayTime.setValueAtTime(rot[i]*beat,t); if(taps[i].pan) taps[i].pan.pan.setValueAtTime(pans[i],t);} } };
+  }
+
+  function panNode(p){ var n=ctx.createStereoPanner?ctx.createStereoPanner():null; if(n) n.pan.value=p; return n; }
+  // one NES pulse voice
+  function pulse(freq,t,dur,gain,pan,detuneCents){
+    var o=ctx.createOscillator(); o.setPeriodicWave(pulseWave); o.frequency.value=freq; if(detuneCents) o.detune.value=detuneCents;
+    var g=ctx.createGain(); g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(gain,t+0.006); g.gain.exponentialRampToValueAtTime(0.0008,t+dur);
+    var pn=panNode(pan||0); if(pn){ o.connect(g); g.connect(pn); pn.connect(master); if(echo) pn.connect(echo.input); } else { o.connect(g); g.connect(master); if(echo) g.connect(echo.input); }
+    o.start(t); o.stop(t+dur+0.03);
+  }
+  function tri(freq,t,dur,gain){ var o=ctx.createOscillator(); o.type="triangle"; o.frequency.value=freq;
+    var g=ctx.createGain(); g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(gain,t+0.01); g.gain.exponentialRampToValueAtTime(0.0008,t+dur);
+    o.connect(g).connect(master); o.start(t); o.stop(t+dur+0.03); }
+  function noiseHit(t,gain){ var rate=ctx.sampleRate, L=Math.floor(rate*0.18), b=ctx.createBuffer(1,L,rate), d=b.getChannelData(0);
+    for(var i=0;i<L;i++) d[i]=(Math.random()*2-1)*Math.pow(1-i/L,2.0);
+    var s=ctx.createBufferSource(); s.buffer=b; var bp=ctx.createBiquadFilter(); bp.type="bandpass"; bp.frequency.value=2400; bp.Q.value=0.8;
+    var g=ctx.createGain(); g.gain.setValueAtTime(gain,t); g.gain.exponentialRampToValueAtTime(0.0005,t+0.18);
+    s.connect(bp).connect(g).connect(master); s.start(t); s.stop(t+0.2); }
+
+  // ── the ripple canvas ──
+  var cv=document.getElementById("ripple"), g=cv.getContext("2d"), CW=700, CH=300, rings=[];
+  var LCOL={1:"#c0703a",2:"#c89b3c",3:"#efe6d2",0:"#fff3cf"};
+  function fit(){ CW=cv.width=cv.clientWidth||700; CH=cv.height=300; }
+  function spawnRing(L,side){ rings.push({t0:performance.now(), L:L, side:side,
+    max:(levelWidth(L)+0.5)*Math.min(CW,CH)*0.16, col:LCOL[L], fulcrum:L===0}); }
+  function drawRipple(){
+    g.fillStyle="rgba(7,5,18,0.30)"; g.fillRect(0,0,CW,CH);     // trails
+    var cx=CW/2, cy=CH/2, now=performance.now();
+    // the fulcrum — the still pivot
+    g.fillStyle="rgba(239,230,210,0.5)"; g.beginPath(); g.arc(cx,cy,3,0,6.283); g.fill();
+    for(var i=rings.length-1;i>=0;i--){ var r=rings[i], a=(now-r.t0)/1500; if(a>1){ rings.splice(i,1); continue; }
+      var rad=r.fulcrum ? (8+a*22) : a*r.max;
+      var ox = cx + (r.side|| 0)*r.max*0.0;   // concentric from centre
+      g.strokeStyle=r.col; g.globalAlpha=(1-a)*(r.fulcrum?0.9:0.7); g.lineWidth=r.fulcrum?3:2;
+      g.beginPath(); g.arc(cx,cy,rad,0,6.283); g.stroke();
+      if(r.fulcrum){ g.globalAlpha=(1-a)*0.9; g.beginPath(); g.arc(cx,cy,2+a*10,0,6.283); g.fillStyle=r.col; g.fill(); }
+    }
+    g.globalAlpha=1; requestAnimationFrame(drawRipple);
+  }
+
+  // ── stave display ──
+  var staveEl=document.getElementById("stave");
+  function renderStave(active){ staveEl.innerHTML="";
+    PHRASE.forEach(function(L,i){ var w=levelWidth(L); var d=document.createElement("div");
+      d.className="lv"+(L===0?" f":"")+(i===active?" on":"");
+      d.innerHTML='<span class="n" style="color:'+LCOL[L]+'">'+(L===0?"0":L)+'</span><span class="bar" style="width:'+(6+w*7)+'px;background:'+LCOL[L]+'"></span>';
+      staveEl.appendChild(d); }); }
+
+  // ── play the woven phrase ──
+  var playBtn=document.getElementById("play");
+  function weave(){ init(); resume(); playBtn.classList.add("busy");
+    var tempo=parseInt(document.getElementById("tempo").value,10), step=60/tempo*0.62, t0=ctx.currentTime+0.08, t=t0;
+    if(echo) echo.setBeat(60/tempo);
+    PHRASE.forEach(function(L,i){
+      var f=freqOf(L), w=levelWidth(L), pan=w/3, dur=step*1.5, dir=(i<3)?"rise":(i>3?"fall":"rise");
+      if(echo) echo.rotateAt(t, i, dir);
+      pulse(f, t, dur, 0.34, 0);                                  // centre voice
+      if(w>0){ pulse(f, t, dur, 0.22, +pan, +6*w); pulse(f, t, dur, 0.22, -pan, -6*w); }  // the WIDTH (ripple), detuned ±
+      tri(f/2, t, dur*1.2, 0.16);                                 // NES triangle bass, octave down
+      if(L===0) noiseHit(t, 0.20);                                // the fulcrum strike (NES noise)
+      var delay=(t-t0)*1000;
+      (function(idx,lvl,side){ setTimeout(function(){ renderStave(idx); spawnRing(lvl, side); }, delay); })(i, L, i<3?-1:1);
+      t+=step;
+    });
+    setTimeout(function(){ playBtn.classList.remove("busy"); renderStave(-1); }, (t-t0)*1000+900);
+  }
+
+  // ── poem picker ──
+  var sel=0;
+  function renderPoems(){ var p=document.getElementById("poems"); p.innerHTML="";
+    POEMS.forEach(function(po,i){ var b=document.createElement("button"); b.className="poem"+(i===sel?" sel":"");
+      b.textContent="“"+(po.q.length>62?po.q.slice(0,60)+"…":po.q)+"”";
+      b.onclick=function(){ sel=i; renderPoems(); showQuote(); weave(); }; p.appendChild(b); }); }
+  function showQuote(){ var po=POEMS[sel];
+    document.getElementById("quote").innerHTML='<div class="q">“'+po.q+'”</div><div class="src">— '+po.src+'</div>'; }
+
+  playBtn.addEventListener("click",weave);
+  document.getElementById("echoBtn").addEventListener("click",function(){ echoOn=!echoOn; if(echo) echo.setOn(echoOn);
+    this.textContent="◎ ternary echo: "+(echoOn?"on":"off"); this.classList.toggle("off",!echoOn); });
+  window.addEventListener("resize",fit);
+  fit(); renderPoems(); showQuote(); renderStave(-1); requestAnimationFrame(drawRipple);
+})();
+</script>
+</body>
+</html>
